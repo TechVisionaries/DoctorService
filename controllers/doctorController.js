@@ -1,41 +1,63 @@
 const Doctor = require("../models/doctorModel");
 
-// GET /doctors
+// Get all doctors
 const getAllDoctors = async (req, res) => {
   try {
     const doctors = await Doctor.find();
-    res.json(doctors);
-  } catch (err) {
-    res.status(500).json({ message: "Failed to fetch doctors" });
+    return res.status(200).json(doctors);
+  } catch (error) {
+    console.error("Error fetching doctors:", error.message);
+    return res.status(500).json({
+      status: "fail",
+      message: "Failed to fetch doctors",
+    });
   }
 };
 
-// GET /doctors/:id
+// Get a doctor by ID
 const getDoctorById = async (req, res) => {
   try {
     const doctor = await Doctor.findById(req.params.id);
-    if (!doctor) return res.status(404).json({ message: "Doctor not found" });
-    res.json(doctor);
-  } catch (err) {
-    res.status(500).json({ message: "Error retrieving doctor" });
+
+    if (!doctor) {
+      return res.status(404).json({
+        status: "fail",
+        message: "Doctor not found",
+      });
+    }
+
+    return res.status(200).json(doctor);
+  } catch (error) {
+    console.error("Error retrieving doctor:", error.message);
+    return res.status(500).json({
+      status: "error",
+      message: "Error retrieving doctor",
+    });
   }
 };
 
-// POST /doctors
+// Create a new doctor
 const createDoctor = async (req, res) => {
   try {
-    const newDoctor = new Doctor(req.body);
-    const savedDoctor = await newDoctor.save();
-    res.status(201).json(savedDoctor);
-  } catch (err) {
-    console.error("❌ Error creating doctor:", err.message);
-    res.status(400).json({ message: "Failed to add doctor", error: err.message });
+    const doctor = new Doctor(req.body);
+    const savedDoctor = await doctor.save();
+
+    return res.status(201).json({
+      status: "success",
+      data: savedDoctor,
+    });
+  } catch (error) {
+    console.error("Error creating doctor:", error.message);
+    return res.status(400).json({
+      status: "fail",
+      message: "Failed to create doctor",
+      error: error.message,
+    });
   }
 };
-
 
 module.exports = {
   getAllDoctors,
   getDoctorById,
-  createDoctor
+  createDoctor,
 };

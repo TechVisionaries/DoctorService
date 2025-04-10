@@ -13,10 +13,8 @@ const { notFound, errorHandler } = require("./middleware/errorHandler");
 const app = express();
 const PORT = process.env.PORT || 8050;
 
-// DB connection
 dbConnect();
 
-// Middlewares
 app.use(morgan("dev"));
 app.use(cors());
 app.use(bodyParser.json());
@@ -27,13 +25,11 @@ const doctorRoutes = require("./routes/doctorRoutes");
 app.use("/doctors", doctorRoutes);
 
 
-// Error handlers
 app.use(notFound);
 app.use(errorHandler);
 
 
 
-// Server
 app.listen(PORT, () => {
   console.log(`Server is running  at PORT ${PORT}`);
 });

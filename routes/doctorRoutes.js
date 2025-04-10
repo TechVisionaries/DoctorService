@@ -8,6 +8,6 @@ const {
 
 router.get("/", getAllDoctors);
 router.get("/:id", getDoctorById);
-router.post("/", createDoctor); // You can add admin middleware later
+router.post("/", createDoctor);
 
 module.exports = router;
