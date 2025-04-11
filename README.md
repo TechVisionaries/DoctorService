@@ -8,27 +8,28 @@ DoctorService is a Node.js and Express.js microservice that manages doctor-relat
 
 ```
 DoctorService/
-├── config/              # DB config (MongoDB connection)
-├── controllers/         # Logic for doctor & auth APIs
-├── middleware/          # Auth & error handling middleware
-├── models/              # Mongoose schemas (Doctor, User)
-├── routes/              # API route definitions
-├── .env                 # Environment variables (DO NOT COMMIT)
-├── Dockerfile           # Docker config
-├── .gitignore           # Files to ignore in Git
-├── package.json         # Project dependencies
+├── config/              # MongoDB connection config
+├── controllers/         # Business logic for doctors
+├── middleware/          # Auth & error handling
+├── models/              # Mongoose schemas
+├── routes/              # API endpoints
+├── .github/workflows/   # CI/CD pipeline config
+├── Dockerfile           # Docker container definition
 ├── index.js             # App entry point
+└── .env                 # Environment variables (not committed)
 ```
 
 ---
 
 ## 🚀 Features
 
-- Add and manage doctors (`POST /doctors`)
-- Get all doctors or specific doctor (`GET /doctors`, `GET /doctors/:id`)
-- Role-based authorization (`admin` middleware)
-- MongoDB Atlas integration
-- Dockerized deployment-ready
+- View list of all doctors: `GET /doctors`
+- View individual doctor by ID: `GET /doctors/:id`
+- Register a new doctor (admin only): `POST /doctors`
+- Secured using JWT-based admin access
+- Built using Express.js and MongoDB
+- Fully containerized with Docker
+- CI/CD pipeline using GitHub Actions + DockerHub
 
 ---
 
@@ -36,7 +37,7 @@ DoctorService/
 
 ```bash
 # Clone the repo
-git clone https://github.com/TechVisionaries/DoctorService
+git clone https://github.com/TechVisionaries/DoctorService.git
 cd DoctorService
 
 # Install dependencies
@@ -62,7 +63,7 @@ JWT_SECRET=your_jwt_secret_key
 ## 🧪 Run the App
 
 ```bash
-npm start
+nodemon index.js
 ```
 
 ---
@@ -70,28 +71,76 @@ npm start
 ## 🐳 Run with Docker
 
 ```bash
-# Build Docker image
-docker build -t doctor-service .
+# Build Docker Image
+docker build -t sandithya/doctorservice .
 
-# Run the container
-docker run -d -p 8050:8050 --env-file .env --name doctor-service doctor-service
+# Run Container Locally
+docker run -d -p 8050:8050 --env-file .env sandithya/doctorservice
 ```
 
 ---
 
-## 🔐 API Endpoints
+## 🔄 CI/CD Pipeline
 
-| Method | Endpoint             | Description            | Auth        |
-|--------|----------------------|------------------------|-------------|
-| POST   | `/api/auth/register` | Register new user      | ❌          |
-| POST   | `/api/auth/login`    | Login existing user    | ❌          |
-| GET    | `/doctors`           | Get all doctors        | ✅          |
-| GET    | `/doctors/:id`       | Get doctor by ID       | ✅          |
-| POST   | `/doctors`           | Create new doctor      | ✅ (admin)  |
+A GitHub Actions workflow is configured to:
+
+- Build the Docker image  
+- Authenticate with DockerHub  
+- Push the image to DockerHub  
+
+> Located at: `.github/workflows/deploy.yml`
+
+You must configure these GitHub Secrets:
+
+- `DOCKER_USERNAME` – Your DockerHub username  
+- `DOCKER_PASSWORD` – A DockerHub access token (Read/Write)
 
 ---
 
-## 📜 License
+## ☁️ Cloud Deployment
 
-This project is part of the **MediSync Cloud Computing Assignment**  
+This microservice is designed to be deployed on:
+
+- Azure Container Apps  
+- AWS ECS / Fargate  
+- Google Cloud Run  
+
+### Sample Azure CLI Command
+
+```bash
+az containerapp create \
+  --name doctor-service \
+  --resource-group doctor-rg \
+  --environment doctor-env \
+  --image sandithya/doctorservice:latest \
+  --target-port 3000 \
+  --ingress external \
+  --registry-server docker.io
+```
+
+---
+
+## 📬 API Endpoints
+
+| Method | Endpoint       | Description            | Auth Required |
+|--------|----------------|------------------------|---------------|
+| GET    | `/doctors`     | Get all doctors        | ❌ No         |
+| GET    | `/doctors/:id` | Get doctor by ID       | ❌ No         |
+| POST   | `/doctors`     | Add new doctor (admin) | ✅ Yes        |
+
+---
+
+## 🔐 Security
+
+- Admin access via JWT tokens  
+- `.env` for secrets (never committed)  
+- Role-based access control (`isAdmin`)  
+- DevSecOps: SonarCloud or Snyk integration ready  
+
+---
+
+## 👨‍💻 Author
+
+**Silva G. M. S. S**  
 **Student ID:** IT21802126  
+**Group Project:** MediSync - Cloud-Based Medical Appointment Platform
