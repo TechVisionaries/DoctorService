@@ -56,8 +56,47 @@ const createDoctor = async (req, res) => {
   }
 };
 
+// PUT /doctors/:id
+const updateDoctor = async (req, res) => {
+  const { name, specialization, availability, email, phone } = req.body;
+
+  try {
+    const doctor = await Doctor.findByIdAndUpdate(
+      req.params.id,
+      { name, specialization, availability, email, phone },
+      { new: true }
+    );
+
+    if (!doctor) {
+      return res.status(404).json({ message: 'Doctor not found' });
+    }
+
+    res.json(doctor);
+  } catch (err) {
+    res.status(500).json({ message: 'Update failed', error: err.message });
+  }
+};
+
+// DELETE /doctors/:id
+const deleteDoctor = async (req, res) => {
+  try {
+    const doctor = await Doctor.findByIdAndDelete(req.params.id);
+
+    if (!doctor) {
+      return res.status(404).json({ message: 'Doctor not found' });
+    }
+
+    res.json({ message: 'Doctor deleted successfully' });
+  } catch (err) {
+    res.status(500).json({ message: 'Delete failed', error: err.message });
+  }
+};
+
 module.exports = {
   getAllDoctors,
   getDoctorById,
   createDoctor,
+  updateDoctor,
+  deleteDoctor,
 };
+
