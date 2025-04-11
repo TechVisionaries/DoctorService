@@ -5,6 +5,9 @@ const morgan = require("morgan");
 const cors = require("cors");
 const dotenv = require("dotenv");
 
+const authRoutes = require("./routes/authRoutes");
+const doctorRoutes = require("./routes/doctorRoutes");
+
 dotenv.config();
 
 const dbConnect = require("./config/dbConnect");
@@ -21,17 +24,11 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 
-const authRoutes = require("./routes/authRoutes");
 app.use("/api/auth", authRoutes);
-
-const doctorRoutes = require("./routes/doctorRoutes");
 app.use("/doctors", doctorRoutes);
-
 
 app.use(notFound);
 app.use(errorHandler);
-
-
 
 app.listen(PORT, () => {
   console.log(`Server is running  at PORT ${PORT}`);
