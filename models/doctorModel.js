@@ -10,9 +10,13 @@ const doctorSchema = new mongoose.Schema(
       type: String, 
       required: true 
     },
-    experience: { 
-      type: Number, 
-      required: true 
+    email: {
+      type: String,
+      required: true,
+      unique: true,
+    },
+    phone: {
+      type: String,
     },
     availability: { 
       type: String, 
@@ -20,10 +24,7 @@ const doctorSchema = new mongoose.Schema(
     },
     hospital: { 
       type: String 
-    },
-    imageUrl: { 
-      type: String 
-    } 
+    }
 }, {
   timestamps: true
 });
