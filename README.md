@@ -37,7 +37,7 @@ DoctorService/
 
 ```bash
 # Clone the repo
-git clone https://github.com/YOUR_USERNAME/DoctorService.git
+git clone https://github.com/TechVisionaries/DoctorService
 cd DoctorService
 
 # Install dependencies
