@@ -23,13 +23,13 @@ DoctorService/
 
 ## 🚀 Features
 
-- View list of all doctors: `GET /doctors`
-- View individual doctor by ID: `GET /doctors/:id`
-- Register a new doctor (admin only): `POST /doctors`
-- Secured using JWT-based admin access
-- Built using Express.js and MongoDB
-- Fully containerized with Docker
-- CI/CD pipeline using GitHub Actions + DockerHub
+- View all doctors (`GET /doctors`)
+- View doctor by ID (`GET /doctors/:id`)
+- Add new doctor (admin only) (`POST /doctors`)
+- Update doctor info (admin only) (`PUT /doctors/:id`)
+- Delete doctor (admin only) (`DELETE /doctors/:id`)
+- JWT-based role authentication (`isAdmin`)
+- Dockerized with CI/CD via GitHub Actions
 
 ---
 
@@ -48,7 +48,7 @@ npm install
 
 ## ⚙️ Environment Variables
 
-Create a `.env` file in the root directory with the following:
+Create a `.env` file in the root directory with:
 
 ```
 PORT=8050
@@ -56,7 +56,7 @@ MONGODB_URL=mongodb+srv://<username>:<password>@<cluster>.mongodb.net/doctor_db?
 JWT_SECRET=your_jwt_secret_key
 ```
 
-> ⚠️ DO NOT commit your `.env` file — it's ignored by `.gitignore`
+> ⚠️ Do NOT commit this file — it's in `.gitignore`
 
 ---
 
@@ -71,41 +71,40 @@ nodemon index.js
 ## 🐳 Run with Docker
 
 ```bash
-# Build Docker Image
+# Build Docker image
 docker build -t sandithya/doctorservice .
 
-# Run Container Locally
-docker run -d -p 8050:8050 --env-file .env sandithya/doctorservice
+# Run Docker container
+docker run -d -p 3000:3000 --env-file .env sandithya/doctorservice
 ```
 
 ---
 
 ## 🔄 CI/CD Pipeline
 
-A GitHub Actions workflow is configured to:
+This service uses **GitHub Actions** to:
 
-- Build the Docker image  
+- Build Docker image  
 - Authenticate with DockerHub  
-- Push the image to DockerHub  
+- Push image to DockerHub  
 
-> Located at: `.github/workflows/deploy.yml`
+Secrets required:
+- `DOCKER_USERNAME` – your DockerHub username  
+- `DOCKER_PASSWORD` – DockerHub access token (Read/Write)
 
-You must configure these GitHub Secrets:
-
-- `DOCKER_USERNAME` – Your DockerHub username  
-- `DOCKER_PASSWORD` – A DockerHub access token (Read/Write)
+Workflow file: `.github/workflows/deploy.yml`
 
 ---
 
 ## ☁️ Cloud Deployment
 
-This microservice is designed to be deployed on:
+Supports deployment on:
 
 - Azure Container Apps  
 - AWS ECS / Fargate  
 - Google Cloud Run  
 
-### Sample Azure CLI Command
+### Sample Azure CLI
 
 ```bash
 az containerapp create \
@@ -122,20 +121,22 @@ az containerapp create \
 
 ## 📬 API Endpoints
 
-| Method | Endpoint       | Description            | Auth Required |
-|--------|----------------|------------------------|---------------|
-| GET    | `/doctors`     | Get all doctors        | ❌ No         |
-| GET    | `/doctors/:id` | Get doctor by ID       | ❌ No         |
-| POST   | `/doctors`     | Add new doctor (admin) | ✅ Yes        |
+| Method | Endpoint         | Description              | Auth Required |
+|--------|------------------|--------------------------|---------------|
+| GET    | `/doctors`       | Get all doctors          | ❌ No         |
+| GET    | `/doctors/:id`   | Get doctor by ID         | ❌ No         |
+| POST   | `/doctors`       | Add new doctor           | ✅ Admin only |
+| PUT    | `/doctors/:id`   | Update doctor details    | ✅ Admin only |
+| DELETE | `/doctors/:id`   | Delete doctor            | ✅ Admin only |
 
 ---
 
 ## 🔐 Security
 
-- Admin access via JWT tokens  
-- `.env` for secrets (never committed)  
-- Role-based access control (`isAdmin`)  
-- DevSecOps: SonarCloud or Snyk integration ready  
+- JWT authentication  
+- Admin-only routes via `isAdmin` middleware  
+- Secrets managed via `.env`  
+- DevSecOps tools (SonarCloud/Snyk) supported
 
 ---
 
@@ -143,4 +144,4 @@ az containerapp create \
 
 **Silva G. M. S. S**  
 **Student ID:** IT21802126  
-**Group Project:** MediSync - Cloud-Based Medical Appointment Platform
+**Project:** MediSync - Cloud-Based Medical Appointment Platform
