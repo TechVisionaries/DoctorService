@@ -1,0 +1,11 @@
+# Node.js dependencies
+node_modules/
+
+# Environment variables
+.env
+
+# Docker
+*.local
+docker-compose.override.yml
+
+
