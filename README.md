@@ -26,7 +26,6 @@ DoctorService/
 
 - Add and manage doctors (`POST /doctors`)
 - Get all doctors or specific doctor (`GET /doctors`, `GET /doctors/:id`)
-- User authentication (`/register`, `/login`)
 - Role-based authorization (`admin` middleware)
 - MongoDB Atlas integration
 - Dockerized deployment-ready
