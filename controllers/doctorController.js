@@ -39,7 +39,24 @@ const getDoctorById = async (req, res) => {
 // Create a new doctor
 const createDoctor = async (req, res) => {
   try {
-    const doctor = new Doctor(req.body);
+    const {
+      name,
+      specialization,
+      availability,
+      email,
+      phone,
+      hospital,
+    } = req.body;
+
+    const doctor = new Doctor({
+      name,
+      specialization,
+      availability,
+      email,
+      phone,
+      hospital,
+    });
+
     const savedDoctor = await doctor.save();
 
     return res.status(201).json({
@@ -56,39 +73,57 @@ const createDoctor = async (req, res) => {
   }
 };
 
-// PUT /doctors/:id
+// Update a doctor by ID
 const updateDoctor = async (req, res) => {
-  const { name, specialization, availability, email, phone } = req.body;
-
   try {
-    const doctor = await Doctor.findByIdAndUpdate(
+    const updatedDoctor = await Doctor.findByIdAndUpdate(
       req.params.id,
-      { name, specialization, availability, email, phone },
+      req.body,
       { new: true }
     );
 
-    if (!doctor) {
-      return res.status(404).json({ message: 'Doctor not found' });
+    if (!updatedDoctor) {
+      return res.status(404).json({
+        status: "fail",
+        message: "Doctor not found",
+      });
     }
 
-    res.json(doctor);
-  } catch (err) {
-    res.status(500).json({ message: 'Update failed', error: err.message });
+    return res.status(200).json({
+      status: "success",
+      data: updatedDoctor,
+    });
+  } catch (error) {
+    console.error("Error updating doctor:", error.message);
+    return res.status(500).json({
+      status: "error",
+      message: "Error updating doctor",
+    });
   }
 };
 
-// DELETE /doctors/:id
+// Delete a doctor by ID
 const deleteDoctor = async (req, res) => {
   try {
-    const doctor = await Doctor.findByIdAndDelete(req.params.id);
+    const deletedDoctor = await Doctor.findByIdAndDelete(req.params.id);
 
-    if (!doctor) {
-      return res.status(404).json({ message: 'Doctor not found' });
+    if (!deletedDoctor) {
+      return res.status(404).json({
+        status: "fail",
+        message: "Doctor not found",
+      });
     }
 
-    res.json({ message: 'Doctor deleted successfully' });
-  } catch (err) {
-    res.status(500).json({ message: 'Delete failed', error: err.message });
+    return res.status(200).json({
+      status: "success",
+      message: "Doctor deleted successfully",
+    });
+  } catch (error) {
+    console.error("Error deleting doctor:", error.message);
+    return res.status(500).json({
+      status: "error",
+      message: "Error deleting doctor",
+    });
   }
 };
 
@@ -99,4 +134,3 @@ module.exports = {
   updateDoctor,
   deleteDoctor,
 };
-
