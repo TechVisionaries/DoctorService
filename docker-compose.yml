@@ -1,0 +1,12 @@
+version: "3.8"
+
+services:
+  doctorservice:
+    build: .
+    container_name: doctor-service
+    ports:
+      - "8050:8050"
+    environment:
+      - PORT=8050
+      - JWT_SECRET=5367566B59703373367639792F423F4528482B4D6251655468576D5A71347437
+      - MONGODB_URL=mongodb+srv://sandi:sandi123@doctor.wornnqq.mongodb.net/doctor_DB?retryWrites=true&w=majority
