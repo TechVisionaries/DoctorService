@@ -1,44 +1,36 @@
-const User = require("../models/userModel");
 const jwt = require("jsonwebtoken");
-const asyncHandler = require("express-async-handler");
+const { Buffer } = require("buffer");
 
-// Middleware to check if user is authenticated
-const authMiddleware = asyncHandler(async (req, res, next) => {
+const authMiddleware = (req, res, next) => {
   const authHeader = req.headers.authorization;
 
   if (!authHeader || !authHeader.startsWith("Bearer ")) {
-    return res.status(401).json({ message: "No token provided" });
+    return res.status(401).json({ message: "Missing or malformed token" });
   }
 
   const token = authHeader.split(" ")[1];
 
   try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    const user = await User.findById(decoded.id);
+    const decodedSecret = Buffer.from(process.env.JWT_SECRET, "base64");
 
-    if (!user) {
-      return res.status(401).json({ message: "User not found" });
-    }
+    const decoded = jwt.verify(token, decodedSecret);
 
-    req.user = user; 
+
+    req.user = decoded;
     next();
   } catch (error) {
-    console.error("JWT error:", error.message);
-    return res.status(401).json({ message: "Invalid or expired token" });
+    return res.status(403).json({ message: "Invalid or expired token" });
   }
-});
+};
 
-// Middleware to check if user is admin
-const isAdmin = asyncHandler(async (req, res, next) => {
-  if (!req.user) {
-    return res.status(403).json({ message: "User not authorized" });
+const isAdmin = (req, res, next) => {
+  if (!req.user || req.user.role !== "admin") {
+    return res.status(403).json({ message: "Access denied. Admins only." });
   }
-
-  if (req.user.role !== "admin") {
-    return res.status(403).json({ message: "You are not an admin" });
-  }
-
   next();
-});
+};
 
-module.exports = { authMiddleware, isAdmin };
+module.exports = {
+  authMiddleware,
+  isAdmin,
+};

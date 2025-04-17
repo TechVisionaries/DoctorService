@@ -5,7 +5,6 @@ const morgan = require("morgan");
 const cors = require("cors");
 const dotenv = require("dotenv");
 
-const authRoutes = require("./routes/authRoutes");
 const doctorRoutes = require("./routes/doctorRoutes");
 
 dotenv.config();
@@ -24,7 +23,6 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 
-app.use("/api/auth", authRoutes);
 app.use("/doctors", doctorRoutes);
 
 app.use(notFound);
