@@ -25,6 +25,10 @@ app.use(cookieParser());
 
 app.use("/doctors", doctorRoutes);
 
+app.get("/", (req, res) => {
+  res.send("DoctorService API is up and running.");
+});
+
 app.use(notFound);
 app.use(errorHandler);
 
