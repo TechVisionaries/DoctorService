@@ -146,7 +146,7 @@ Deployed at:
 
 ## 👨‍💻 Author
 
-**Name**: Silva G. M. S. S  
+**Name**: Silva G M S S  
 **Student ID**: IT21802126  
 **Project**: MediSync - Cloud-Based Medical Appointment Platform  
 
