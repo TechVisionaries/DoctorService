@@ -1,3 +1,8 @@
+Here’s your updated `README.md` for **DoctorService**, reflecting the latest deployment via **AWS ECS with Load Balancer** instead of App Runner, and clarifying details based on your current implementation:
+
+---
+
+```markdown
 # 🩺 DoctorService - MediSync Microservice
 
 DoctorService is a Node.js and Express.js microservice that manages doctor-related data for the **MediSync** cloud-based medical appointment platform. This service provides APIs to register doctors, view all doctors, retrieve individual doctor details, and supports authentication for secure access.
@@ -109,7 +114,7 @@ This service uses **GitHub Actions** to:
 ### ✅ AWS ECS Fargate with Application Load Balancer
 
 Deployed at:
-🔗 [`http://medisync-loadbalancer-155559871.us-east-1.elb.amazonaws.com/doctors`](http://medisync-loadbalancer-155559871.us-east-1.elb.amazonaws.com/doctors)
+🔗 [`http://medisync-loadbalancer-155559871.us-east-1.elb.amazonaws.com/doctors/`](http://medisync-loadbalancer-155559871.us-east-1.elb.amazonaws.com/doctors/)
 
 #### AWS Settings:
 
@@ -141,12 +146,13 @@ Deployed at:
 * Secure Docker deployment
 * SonarCloud/Snyk integration for DevSecOps analysis
 
+
 ---
 
 ## 👨‍💻 Author
 
-**Name**: Silva G. M. S. S
-**Student ID**: IT21802126
-**Project**: MediSync - Cloud-Based Medical Appointment Platform
+**Name**: Silva G. M. S. S  
+**Student ID**: IT21802126  
+**Project**: MediSync - Cloud-Based Medical Appointment Platform  
 
 ---
