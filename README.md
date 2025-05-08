@@ -1,8 +1,3 @@
-Here’s your updated `README.md` for **DoctorService**, reflecting the latest deployment via **AWS ECS with Load Balancer** instead of App Runner, and clarifying details based on your current implementation:
-
----
-
-```markdown
 # 🩺 DoctorService - MediSync Microservice
 
 DoctorService is a Node.js and Express.js microservice that manages doctor-related data for the **MediSync** cloud-based medical appointment platform. This service provides APIs to register doctors, view all doctors, retrieve individual doctor details, and supports authentication for secure access.
