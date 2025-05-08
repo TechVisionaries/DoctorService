@@ -7,17 +7,19 @@ DoctorService is a Node.js and Express.js microservice that manages doctor-relat
 ## 📁 Project Structure
 
 ```
+
 DoctorService/
-├── config/              # MongoDB connection config  
-├── controllers/         # Business logic for doctors  
-├── middleware/          # Auth & error handling  
-├── models/              # Mongoose schemas  
-├── routes/              # API endpoints  
-├── .github/workflows/   # CI/CD pipeline config  
-├── Dockerfile           # Docker container definition  
-├── index.js             # App entry point  
+├── config/              # MongoDB connection config
+├── controllers/         # Business logic for doctors
+├── middleware/          # Auth & error handling
+├── models/              # Mongoose schemas
+├── routes/              # API endpoints
+├── .github/workflows/   # CI/CD pipeline config
+├── Dockerfile           # Docker container definition
+├── index.js             # App entry point
 └── .env                 # Environment variables (not committed)
-```
+
+````
 
 ---
 
@@ -43,7 +45,7 @@ cd DoctorService
 
 # Install dependencies
 npm install
-```
+````
 
 ---
 
@@ -85,18 +87,18 @@ docker run -d -p 8050:8050 --env-file .env sandithya/doctorservice
 
 This service uses **GitHub Actions** to:
 
-- Build Docker image  
-- Authenticate with DockerHub  
-- Push image to DockerHub  
-- Run SonarCloud quality checks  
+* Build Docker image
+* Authenticate with DockerHub
+* Push image to DockerHub
+* Run SonarCloud quality checks
 
 ### 🔐 Secrets Required
 
-| Name              | Purpose                        |
-|-------------------|--------------------------------|
-| `DOCKER_USERNAME` | DockerHub login                |
-| `DOCKER_PASSWORD` | DockerHub access token         |
-| `SONAR_TOKEN`     | SonarCloud auth token          |
+| Name              | Purpose                |
+| ----------------- | ---------------------- |
+| `DOCKER_USERNAME` | DockerHub login        |
+| `DOCKER_PASSWORD` | DockerHub access token |
+| `SONAR_TOKEN`     | SonarCloud auth token  |
 
 > Workflow file path: `.github/workflows/deploy.yml`
 
@@ -104,47 +106,47 @@ This service uses **GitHub Actions** to:
 
 ## ☁️ Cloud Deployment
 
-### ✅ AWS App Runner (Live Production)
+### ✅ AWS ECS Fargate with Application Load Balancer
 
-Deployed at:  
-🔗 [https://xhtfb7pytf.us-east-1.awsapprunner.com](https://xhtfb7pytf.us-east-1.awsapprunner.com)
+Deployed at:
+🔗 [`http://medisync-loadbalancer-155559871.us-east-1.elb.amazonaws.com/doctors`](http://medisync-loadbalancer-155559871.us-east-1.elb.amazonaws.com/doctors)
 
 #### AWS Settings:
-- **Source**: GitHub (main branch)
-- **Runtime**: Node.js 18
-- **Build Command**: `npm install`
-- **Start Command**: `npm start`
-- **Port**: `8050`
-- **Deployment**: Automatic (on push to main)
 
+* **Cluster**: `MediSyncCluster`
+* **Service**: `doctor-service-task-service`
+* **Target Group**: `doctor-service-target-group`
+* **Listener**: Port 80 → forwards `/doctors` path
+* **Port**: 8050 (container)
+
+---
 
 ## 📬 API Endpoints
 
-| Method | Endpoint         | Description              | Auth Required    |
-|--------|------------------|--------------------------|------------------|
-| GET    | `/doctors`       | Get all doctors          | ❌ No             |
-| GET    | `/doctors/:id`   | Get doctor by ID         | ❌ No             |
-| POST   | `/doctors`       | Add new doctor           | ✅ Admin only     |
-| PUT    | `/doctors/:id`   | Update doctor details    | ✅ Admin only     |
-| DELETE | `/doctors/:id`   | Delete doctor            | ✅ Admin only     |
+| Method | Endpoint       | Description           | Auth Required |
+| ------ | -------------- | --------------------- | ------------- |
+| GET    | `/doctors`     | Get all doctors       | ❌ No          |
+| GET    | `/doctors/:id` | Get doctor by ID      | ❌ No          |
+| POST   | `/doctors`     | Add new doctor        | ✅ Admin only  |
+| PUT    | `/doctors/:id` | Update doctor details | ✅ Admin only  |
+| DELETE | `/doctors/:id` | Delete doctor         | ✅ Admin only  |
 
 ---
 
 ## 🔐 Security
 
-- JWT-based authentication  
-- Role-based access control using middleware  
-- Environment variables used for secret management  
-- Secure Docker deployment  
-- SonarCloud/Snyk integration for DevSecOps analysis  
+* JWT-based authentication
+* Role-based access control using middleware
+* Environment variables used for secret management
+* Secure Docker deployment
+* SonarCloud/Snyk integration for DevSecOps analysis
 
 ---
 
 ## 👨‍💻 Author
 
-**Name**: Silva G. M. S. S  
-**Student ID**: IT21802126  
-**Project**: MediSync - Cloud-Based Medical Appointment Platform  
+**Name**: Silva G. M. S. S
+**Student ID**: IT21802126
+**Project**: MediSync - Cloud-Based Medical Appointment Platform
 
 ---
-
